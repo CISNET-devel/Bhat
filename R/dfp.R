@@ -480,7 +480,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    dimnames(m.out) <- list(1:npar, c("label", "estimate", "low", "high"))
 	    print(m.out, quote = FALSE)
 	    cat("\n")
-	    return(list(fmin = fmin, label = x$label, est = x$est, status=status, nfcn=nfcn))
+	    return(list(fmin = fmin, label = x$label, est = x$est, low=xl, high=xu, status=status, nfcn=nfcn))
 }
 
 
