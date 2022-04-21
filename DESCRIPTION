@@ -1,8 +1,26 @@
 Package: Bhat
 Title: General likelihood exploration
-Version: 0.9-10
-Author: Georg Luebeck <gluebeck@fhcrc.org> and Rafael Meza <rmeza@umich.edu>
+Version: 0.9-11
+Authors@R: 
+    person(given = "Georg",
+           family = "Luebeck",
+           role = c("aut", "cre"),
+           email = "gluebeck@fhcrc.org",
+           comment = c(ORCID = "0000-0002-4378-2829")),
+    person(given = "Rafael",
+           family = "Meza",
+           role = c("aut", "cre"),
+           email = "rmeza@umich.edu",
+           comment = c(ORCID = "0000-0002-1076-5037")),
+    person(given = "Alexander",
+           family = "Gaenko",
+           role = "ctb",
+           email = "galexv@umich.edu",
+           comment = c(ORCID = "0000-0002-1901-0394"))
 Description: Functions for MLE, MCMC, CIs (originally in Fortran)
-Maintainer: Rafael Meza <rmeza@umich.edu>
 License: GPL (>=2)
-Packaged: 2013-01-12 20:50:16 UTC; rafaelmeza
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    graphics,
+    stats
