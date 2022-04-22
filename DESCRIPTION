@@ -2,21 +2,21 @@ Package: Bhat
 Title: General likelihood exploration
 Version: 0.9-11
 Authors@R: 
-    person(given = "Georg",
+    c(person(given = "Georg",
            family = "Luebeck",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "gluebeck@fhcrc.org",
            comment = c(ORCID = "0000-0002-4378-2829")),
-    person(given = "Rafael",
+      person(given = "Rafael",
            family = "Meza",
            role = c("aut", "cre"),
            email = "rmeza@umich.edu",
            comment = c(ORCID = "0000-0002-1076-5037")),
-    person(given = "Alexander",
+      person(given = "Alexander",
            family = "Gaenko",
            role = "ctb",
            email = "galexv@umich.edu",
-           comment = c(ORCID = "0000-0002-1901-0394"))
+           comment = c(ORCID = "0000-0002-1901-0394")))
 Description: Functions for MLE, MCMC, CIs (originally in Fortran)
 License: GPL (>=2)
 Encoding: UTF-8
@@ -24,3 +24,4 @@ LazyData: true
 Imports: 
     graphics,
     stats
+RoxygenNote: 7.0.2
