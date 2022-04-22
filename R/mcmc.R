@@ -62,6 +62,8 @@
 ##' out <- mymcmc(x, nlogf, m1=2000, m2=2000, m3=10000, scl1=0.5, scl2=2, skip=10, plot=TRUE)
 ##' # start MCMC from some other point: e.g. try x$est <- c(16,.2,.02)
 ##' 
+##' @export
+##' 
 "mymcmc" <-
 function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, plot=FALSE, plot.range=0)
 {

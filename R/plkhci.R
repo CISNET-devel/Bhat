@@ -72,6 +72,8 @@
 ##'           plkhci(x,nlogf,"c",prob=0.9)
 ##'         
 ##' 
+##' @export
+##' 
 plkhci <- function (x, nlogf, label, prob = 0.95, eps = 0.001, nmax = 10, nfcn = 0)
 {
     if (!is.list(x)) {

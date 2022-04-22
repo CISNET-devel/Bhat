@@ -38,6 +38,8 @@
 ##'   ## shows the differences in curvature at the minimum of the Banana
 ##'   ## function along principal axis (in a logit-transformed coordinate system)
 ##' 
+##' @export
+##' 
 "logit.hessian" <-
 function(x=x,f=f,del=rep(.002,length(x$est)),dapprox=FALSE,nfcn=0) {
   # computes the hessian of f on logit scale

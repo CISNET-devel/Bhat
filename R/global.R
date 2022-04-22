@@ -53,6 +53,8 @@
 ##' out <- global(x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=TRUE)
 ##' # start MCMC from some other point: e.g. try x$est <- c(16,.2,.02)
 ##' 
+##' @export
+##' 
 "global" <-
 function (x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=FALSE)
 {

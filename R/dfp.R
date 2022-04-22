@@ -57,6 +57,8 @@
 ##' 	# call:
 ##' 	  results <- dfp(x,f=lkh)
 ##' 
+##' @export
+##' 
 "dfp" <-
 function (x, f, tol=1e-5, nfcn = 0) 
 {

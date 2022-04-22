@@ -29,6 +29,8 @@
 ##'    x <- list(label=c("a","b"),est=c(1,1),low=c(0,0),upp=c(100,100))
 ##'    dqstep(x,fr,sens=1)
 ##' 
+##' @export
+##' 
 "dqstep" <-
 function(x,f,sens) {
   # fix nfcn counter later

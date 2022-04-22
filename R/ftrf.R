@@ -12,6 +12,8 @@
 ##' @author E. Georg Luebeck (FHCRC)
 ##' @seealso \code{\link{btrf}}
 ##' @keywords optimize misc
+##' @export
+##' 
 "ftrf" <-
 function(x,xl,xu) {
 

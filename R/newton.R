@@ -54,6 +54,8 @@
 ##'           x$est <- r$est
 ##'           results <- newton(x,lkh)
 ##' 
+##' @export
+##' 
 "newton" <-
 function (x, f, eps=1e-1, itmax=10, relax=0, nfcn = 0) 
 {
