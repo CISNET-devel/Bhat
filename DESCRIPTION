@@ -25,3 +25,6 @@ Imports:
     graphics,
     stats
 RoxygenNote: 7.0.2
+Suggests: 
+    testthat (>= 2.0.0)
+Config/testthat/edition: 2
