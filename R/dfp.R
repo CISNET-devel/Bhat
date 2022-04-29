@@ -26,6 +26,7 @@
 ##' @param tol a tolerance used to determine when convergence should be
 ##' indicated
 ##' @param nfcn number of function calls
+##' @param ... other parameters to be passed to `f`
 ##' @return list with the following components: \item{fmin }{ the function
 ##' value f at the minimum } \item{label }{ the labels taken from list \code{x}
 ##' } \item{est }{ a vector of the estimates at the minimum. dfp does not
@@ -60,7 +61,7 @@
 ##' @export
 ##' 
 "dfp" <-
-function (x, f, tol=1e-5, nfcn = 0) 
+function (x, f, tol=1e-5, nfcn = 0, ...) 
 {
 	    #     Function Minimization for R. 
 	    #     This function is part of the Bhat exploration tool and is
@@ -77,6 +78,8 @@ function (x, f, tol=1e-5, nfcn = 0)
 
             #     E Georg Luebeck (gluebeck@fhcrc.org)
 
+            ff = function(x) f(x, ...) ## 1-arg function (closure) to be optimized
+    
             xt.inf <- 16
 	    slamin <- 0.2
 	    slamax <- 3
@@ -109,7 +112,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    ####  first call 
 	    cat(date(), "\n","\n")
 	    xt <- ftrf(x$est, x$low, x$upp)
-	    fmin <- f(x$est)
+	    fmin <- ff(x$est)
 	    nfcn <- nfcn + 1
             cat('starting at','\n')
 	    cat(format(nfcn), "  fmin: ", fmin, "   ", format(x$est), "\n")
@@ -134,7 +137,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    #### 1, 2 
 	    	    #### ?? cat("COVARIANCE MATRIX NOT POSITIVE-DEFINITE","\n")
 	    	    #### define step sizes dirin
-                    d <- dqstep(list(label=x$label,est=btrf(xt, x$low, x$upp),low=x$low,upp=x$upp),f,sens=.01)
+                    d <- dqstep(list(label=x$label,est=btrf(xt, x$low, x$upp),low=x$low,upp=x$upp),ff,sens=.01)
 	    	    if (isw2 >= 1)  d <- 0.02 * sqrt(abs(diag(v)) * up)
 	    	    dirin <- d
 
@@ -150,10 +153,10 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    	    d <- dirin[i]
 	    	    	    	    xtf <- xt[i]
 	    	    	    	    xt[i] <- xtf + d
-	    	    	    	    fs1 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    fs1 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    xt[i] <- xtf - d
-	    	    	    	    fs2 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    fs2 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    xt[i] <- xtf
 	    	    	    	    gs[i] <- (fs1 - fs2)/(2 * d)
@@ -176,7 +179,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    	     # while(ns < 10 ...)
 	    	    	    	     while (ns < 10 & nf < 10) {
 	    	    	    	      xt[i] <- xtf + d
-	    	    	    	      f0 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	      f0 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	      nfcn <- nfcn + 1
 	    	    	    	      #       cat("dfp search intermediate output:","\n")
 	    	    	    	      #       cat("f0: ",f0,"  fmin: ",fmin,"   nfcn: ",nfcn,"\n")
@@ -296,7 +299,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    xt <- xxs + dirin
 	    	    	    xt[xt > xt.inf] <- xt.inf
 	    	    	    xt[xt < -xt.inf] <- -xt.inf
-	    	    	    f0 <- f(btrf(xt, x$low, x$upp))
+	    	    	    f0 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    nfcn <- nfcn + 1
 	    	    	    ####  cat(format(nfcn),"   f0: ",f0,"   ",format(xt),"\n","\n")
 	    	    	    ####  change to output on orig. scale
@@ -322,7 +325,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    	    xt <- xxs + slam * dirin
 	    	    	    	    xt[xt > xt.inf] <- xt.inf
 	    	    	    	    xt[xt < -xt.inf] <- -xt.inf
-	    	    	    	    f2 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    f2 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    ####   cat(format(nfcn),"  f2: ",f2,"   ",format(xt),"\n")
 	    	    	    	    ####   quadr interp using 3 points
@@ -347,7 +350,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    	    xt <- xxs + tlam * dirin
 	    	    	    	    xt[xt > xt.inf] <- xt.inf
 	    	    	    	    xt[xt < -xt.inf] <- -xt.inf
-	    	    	    	    f3 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    f3 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    if (f0 >= fmin & f2 >= fmin & f3 >= fmin) {
 	    	    	    	     f.main <- 200
@@ -395,7 +398,7 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    iter <- iter + 1
 	    	    	    ####  get gradient and sigma
 	    	    	    ####  compute first and second (diagonal) derivatives 
-	    	    	    fmin <- f(btrf(xt, x$low, x$upp))
+	    	    	    fmin <- ff(btrf(xt, x$low, x$upp))
 	    	    	    nfcn <- nfcn + 1
 	    	    	    ####      cat(format(nfcn),"  ",fmin,"   ",format(xt),"\n")
 	    	    	    ####      cat("___________________________________________","\n")
@@ -409,10 +412,10 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    	    }
 	    	    	    	    xtf <- xt[i]
 	    	    	    	    xt[i] <- xtf + d
-	    	    	    	    fs1 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    fs1 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    xt[i] <- xtf - d
-	    	    	    	    fs2 <- f(btrf(xt, x$low, x$upp))
+	    	    	    	    fs2 <- ff(btrf(xt, x$low, x$upp))
 	    	    	    	    nfcn <- nfcn + 1
 	    	    	    	    xt[i] <- xtf
 	    	    	    	    g[i] <- (fs1 - fs2)/(2 * d)
@@ -518,12 +521,12 @@ function (x, f, tol=1e-5, nfcn = 0)
 	    	    	    break
 	    	    }
                   }
-	    fmin <- f(btrf(xt, x$low, x$upp)); nfcn <- nfcn + 1
+	    fmin <- ff(btrf(xt, x$low, x$upp)); nfcn <- nfcn + 1
 
 	    x$est <- btrf(xt, x$low, x$upp)
             ####  compute error (logit scale)
-            del <- dqstep(x,f,sens=.01)
-            h <- logit.hessian(x,f,del,dapprox=FALSE,nfcn); nfcn <- h$nfcn
+            del <- dqstep(x,ff,sens=.01)
+            h <- logit.hessian(x,ff,del,dapprox=FALSE,nfcn); nfcn <- h$nfcn
             v <- solve(h$ddf)
             
             xtl <- xt-1.96*sqrt(diag(v))

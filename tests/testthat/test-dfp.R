@@ -121,3 +121,25 @@ test_that("confined dfp on double-well finds the other minimum", {
     expect_lte(res$nfcn, 65)
 })
 
+
+test_that("dfp can pass additional arguments", {
+
+    x=list(label = c("x", "y"),
+           est = c(0, 0),
+           low = c(-5, -5),
+           upp = c(10, 10))
+
+    res = dfp(x, f=double_well, a1=-0.5, a2=1, b1=0, b2=1)
+
+    str(res)
+
+    expect_equal(res$status, 0)
+    expect_equal(res$fmin, -3, tolerance=1e-5)
+    expect_equal(res$est, c(1,1), tolerance=1e-5)
+
+    expect_equal(res$low, c(0.545, 0.220), tolerance=5e-3)
+    expect_equal(res$high, c(1.47, 1.81), tolerance=5e-3)
+    
+    expect_lte(res$nfcn, 60)
+})
+
