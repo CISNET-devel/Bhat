@@ -17,7 +17,10 @@ Authors@R:
            role = "ctb",
            email = "galexv@umich.edu",
            comment = c(ORCID = "0000-0002-1901-0394")))
-Description: Functions for MLE, MCMC, CIs (originally in Fortran)
+Description: This package provides functions for Maximum Likelihood
+             Estimation, Markov Chain Monte Carlo, finding confidence
+             intervals.  This implementation is heavily based on the
+             original Fortran source code translated to R.
 License: GPL (>=2)
 Encoding: UTF-8
 LazyData: true
