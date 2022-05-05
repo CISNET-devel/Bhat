@@ -102,7 +102,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
             # *** initialize graphical output
             if(plot==TRUE) {
               if(plot.range==0) {
-                par(mfrow=c(npar+1,1),bg="grey")
+                graphics::par(mfrow=c(npar+1,1),bg="grey")
               }
             }
 
@@ -149,7 +149,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
 
                 # *** compute proposal x' (=yt). If unacceptable, reject
                 # dx <-  t(eig$vectors) %*% rnorm(npar,0,1/(0.5*sqrt(eig$values)))
-                dx <-  mvrnorm(n = 1, mu = rep(0,npar), Sigma = inv.ddf, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
+                dx <-  MASS::mvrnorm(n = 1, mu = rep(0,npar), Sigma = inv.ddf, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
                 yt <- xt + scl1 * dx
                 Xt <- btrf(xt, x$low, x$upp)
                 Yt <- btrf(yt, x$low, x$upp)
@@ -171,7 +171,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                 if(accept == 1) {xt <- yt; f.old <- f.new; acc.count <- acc.count+1
                              xt.maxl <- yt; f.maxl <- f.new # approximate/search max-likelihood
                              } else {
-                               if(runif(1) <= accept) {
+                               if(stats::runif(1) <= accept) {
                                          xt <- yt; f.old <- f.new; acc.count <- acc.count+1}
                              }
 
@@ -186,13 +186,13 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                   n.skip <- seq(skip,n,skip)
 
                   if(plot==TRUE) {
-                    par(mar=c(0, 5, 0.1, 4) + 0.1)
+                    graphics::par(mar=c(0, 5, 0.1, 4) + 0.1)
                     plot(f.mon[n.skip], type='l', xlab = " ", ylab = "-log-density",col=2)
                     for (i in 1:(npar-1)) {
-                      par(mar=c(0, 5, 0, 4) + 0.1)
+                      graphics::par(mar=c(0, 5, 0, 4) + 0.1)
                       plot(x.mon[n.skip,i], type='l', xlab = " ", ylab = x$label[i], col=2)
                     }
-                    par(mar=c(0.1, 5, 0, 4) + 0.1)
+                    graphics::par(mar=c(0.1, 5, 0, 4) + 0.1)
                     plot(x.mon[n.skip,npar], type='l', xlab = " ", xaxt='n', ylab = x$label[npar], col=2)
                     nc <- nc + 1
                   }
@@ -200,7 +200,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
               }
 
             # *** obtain empirical covariance of increments
-            covm <- cov(x.mon[2:m1,]-x.mon[1:(m1-1),]) # now redundant
+            covm <- stats::cov(x.mon[2:m1,]-x.mon[1:(m1-1),]) # now redundant
             cat('\n','\n')
             # print(covm,quote=FALSE)
             # cat('\n','\n')
@@ -231,7 +231,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
 
                 # *** compute proposal x' (=yt). If unacceptable, reject
                 # dx <-  t(eig$vectors) %*% rnorm(npar,0,sqrt(eig$values))
-                dx <-  mvrnorm(n = 1, mu = rep(0,npar), Sigma = covm, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
+                dx <-  MASS::mvrnorm(n = 1, mu = rep(0,npar), Sigma = covm, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
                 y <- x.mon[n-1,] + scl2 * dx
                 if(any((y-x$low) < small)) {cat('move rejected (lower bound)','\n'); accept <- 0}
                 if(any((x$upp-y) < small)) {cat('move rejected (upper bound)','\n'); accept <- 0}
@@ -247,7 +247,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                   if(accept == 1) {x.mon[n,] <- y; f.mon[n] <- f.new; acc.count <- acc.count+1
                              x.maxl <- y; f.maxl <- f.new # approximate/search max-likelihood
                              } else {
-                               if(runif(1) <= accept) {
+                               if(stats::runif(1) <= accept) {
                                  x.mon[n,] <- y; f.mon[n] <- f.new; acc.count <- acc.count+1
                                }
                              }
@@ -265,17 +265,17 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                   if(plot==TRUE) {
                     if(m1 > 1) {brncol <- 3} else {brncol <- 2}
 
-                    par(mar=c(0, 5, 0.1, 4) + 0.1)
+                    graphics::par(mar=c(0, 5, 0.1, 4) + 0.1)
                     plot(f.mon[n.skip.1], type='l', xlab = " ", ylab = "-log-density",col=2)
-                    lines(f.mon[n.skip.2],col=brncol) #pilot cycles
+                    graphics::lines(f.mon[n.skip.2],col=brncol) #pilot cycles
                     for (i in 1:(npar-1)) {
-                      par(mar=c(0, 5, 0, 4) + 0.1)
+                      graphics::par(mar=c(0, 5, 0, 4) + 0.1)
                       plot(x.mon[n.skip.1,i], type='l', xlab = " ", ylab = x$label[i], col=2)
-                      lines(x.mon[n.skip.2,i],col=brncol) #pilot cycles
+                      graphics::lines(x.mon[n.skip.2,i],col=brncol) #pilot cycles
                     }
-                    par(mar=c(0.1, 5, 0, 4) + 0.1)
+                    graphics::par(mar=c(0.1, 5, 0, 4) + 0.1)
                     plot(x.mon[n.skip.1,npar], type='l', xlab = " ", xaxt='n', ylab = x$label[npar], col=2)
-                    lines(x.mon[n.skip.2,npar],col=brncol) #pilot cycles
+                    graphics::lines(x.mon[n.skip.2,npar],col=brncol) #pilot cycles
 
                     nc <- nc + 1
                   }
@@ -284,7 +284,7 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                   if(m1 > 1) { #note: when covm is passed to mymcmc, m1 is set to 1
                   # update covariance using sampled increments (m1+1):n
                     if(n <= m1+m2) {
-                      covm <- cov(x.mon[2:n,]-x.mon[1:(n-1),])
+                      covm <- stats::cov(x.mon[2:n,]-x.mon[1:(n-1),])
                       eig <- eigen(covm)
                       if(any(eig$values < small)) {warning('covm nearly singular')}
                     }

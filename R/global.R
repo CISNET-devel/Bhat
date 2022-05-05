@@ -89,7 +89,7 @@ function (x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=FALSE)
 
             # *** initialize graphical output
             if(plot==TRUE) {
-            par(mfrow=c(npar+1,1),bg="grey")}
+            graphics::par(mfrow=c(npar+1,1),bg="grey")}
 
             # *** initialize f.old
 	    cat(date(), "\n")
@@ -116,7 +116,7 @@ function (x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=FALSE)
               # *** create suitable random uniform proposal kernel (width)
               di <- dsc[i] * min(abs(x$est[i]-x$low[i]),abs(x$est[i]-x$upp[i]))
               dih <- di/2
-              x0$est[i] = x$est[i] - dih + di*runif(1)
+              x0$est[i] = x$est[i] - dih + di*stats::runif(1)
 
               if(x0$est[i] > x$low[i] & x0$est[i] < x$upp[i]) {
                 f0 <- nlogf(x0$est); nfcn <- nfcn + 1
@@ -127,7 +127,7 @@ function (x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=FALSE)
                 n.tried[i] <- n.tried[i]+1
               }
 
-              if(runif(1) <= acc.p1) {
+              if(stats::runif(1) <= acc.p1) {
                 x$est[i] <- x0$est[i]; fp <- f0; n.accept2 <- n.accept2+1
                 n.accepted[i] <- n.accepted[i]+1
               }
@@ -151,19 +151,19 @@ function (x, nlogf, beta = 1., mc=1000, scl=2, skip=1, nfcn = 0, plot=FALSE)
                 n.skip <- seq(skip,n,skip)
 
                 if(plot==TRUE) {
-                par(mar=c(0, 5, 0.1, 4) + 0.1)
+                graphics::par(mar=c(0, 5, 0.1, 4) + 0.1)
                 plot(f.mon[n.skip], type='l', xlab = " ", ylab = "-log-density",col=2)
                 for (i in 1:(npar-1)) {
-                  par(mar=c(0, 5, 0, 4) + 0.1)
+                  graphics::par(mar=c(0, 5, 0, 4) + 0.1)
                   plot(x.mon[n.skip,i], type='l', xlab = " ", ylab = x$label[i], col=2)
                 }
-                par(mar=c(0.1, 5, 0, 4) + 0.1)
+                graphics::par(mar=c(0.1, 5, 0, 4) + 0.1)
                 plot(x.mon[n.skip,npar], type='l', xlab = " ", xaxt='n', ylab = x$label[npar], col=2)
               }
               }
             }
 
-            covm <- cov(x.mon[2:mc,]-x.mon[1:(mc-1),]) 
+            covm <- stats::cov(x.mon[2:mc,]-x.mon[1:(mc-1),]) 
             cat('\n','\n')
             # print(covm,quote=FALSE)
             # cat('\n','\n')

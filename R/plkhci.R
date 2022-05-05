@@ -94,7 +94,7 @@ plkhci <- function (x, nlogf, label, prob = 0.95, eps = 0.001, nmax = 10, nfcn =
     sens <- 0.5
     rhs <- numeric(npar)
     disc <- numeric(npar)
-    qchi <- qchisq(prob, 1)
+    qchi <- stats::qchisq(prob, 1)
     if (!is.character(label)) 
         stop("label needs to be of type character")
     p <- match(label, x$label)
