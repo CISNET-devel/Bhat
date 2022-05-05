@@ -31,6 +31,7 @@
 ##' @param plot logical variable. If TRUE the chain and the negative log
 ##' density (nlogf) is plotted. The first m1+m2 cycles are shown in green,
 ##' other cycles in red
+##' @param plot.range [Not documented. Leave as default]
 ##' @return list with the following components: \item{f }{ values of nlogf for
 ##' the samples obtained } \item{mcmc }{ the chain (samples obtained) }
 ##' \item{covm }{ current covariance matrix for mv normal proposal
