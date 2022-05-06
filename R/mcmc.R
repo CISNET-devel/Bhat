@@ -136,7 +136,10 @@ function (x, nlogf, m1, m2=m1, m3, scl1=0.5, scl2=2, skip=1, covm=0, nfcn = 0, p
                   del <- dqstep(x,nlogf,sens)
                   # eig <- .1/del/del; ddf <- diag(eig); eig <- eigen(ddf)
                   inv.ddf <- diag(del*del)
-               }
+              } else {
+                  # we've just eigendecomposed the matrix, let's use it for inverting
+                  inv.ddf  <- 0.5 * eig$vectors %*% diag(1/eig$values, nrow=length(eig$values)) %*% t(eig$vectors)
+              }
 
                # ggf <- 0.5 * solve(ddf,diag(1,npar),tol=1.e-10)
 
