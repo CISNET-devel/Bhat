@@ -1,6 +1,6 @@
 Package: Bhat
 Title: General Likelihood Exploration
-Version: 0.9-11
+Version: 0.9-12
 Authors@R: 
     c(person(given = "Georg",
            family = "Luebeck",
